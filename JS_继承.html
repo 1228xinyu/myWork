@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+
+  <script>
+    // 盗用构造函数
+    function Father(name) {
+      this.name = name
+      this.friends = ['jack', 'tony']
+    }
+
+    function Son(name, age) {
+      // 核心
+      Father.call(this, name)
+      this.age = age
+    }
+
+    let son = new Son('yixyu', 21)
+    console.log(son)
+
+    // 组合式继承
+
+    // 给 Father 的原型对象添加公共方法
+    Father.prototype.sayName = function () {
+      console.log(this.name)
+    }
+
+    function Father(name) {
+      this.name = name
+      this.friends = ['jack', 'tony']
+    }
+
+    // 更改原型链
+    Son.prototype = new Father()
+    Son.prototype.constructor = Son
+
+    function Son(name, age) {
+      // 核心
+      Father.call(this, name)
+      this.age = age
+    }
+
+    let son1 = new Son('yixyu', 21)
+    son1.friends.push('green')
+    son1.sayName()
+    console.log(son1)
+
+    let son2 = new Son('lt', 21)
+    son2.sayName()
+    console.log(son2)
+
+    // 原型式继承
+    function object(o) {
+      function F() {}
+      F.prototype = o
+      return new F()
+    }
+
+    // object 函数内部相当于： return  Object.creat(o)
+    // function object(o) {
+    //   return Object.create(o)
+    // }
+
+    let obj = {
+      name: 'jack',
+      firends: ['jack', 'alen'],
+    }
+
+    let p1 = object(obj)
+    p1.firends.push('yixyu')
+    console.log(p1, p1.firends)
+
+    let p2 = object(obj)
+    console.log(p2, p2.firends)
+
+    // 寄生式继承
+    function sayName() {
+      console.log(this.name)
+    }
+
+    function object(o) {
+      function F() {}
+      F.prototype = o
+      return new F()
+    }
+
+    function createAnorther(init) {
+      let clone = object(init)
+      clone.sayName = sayName
+      return clone
+    }
+
+    let obj = {
+      name: 'jack',
+      friends: ['jack', 'alen'],
+    }
+
+    let another1 = createAnorther(obj)
+    console.log(another1) // { sayName: f }
+    console.log(another1.name) // 'jack'
+    console.log(another1.friends) // ['jack', 'alen']
+    another1.friends.push('green')
+    console.log(another1.friends) // ['jack', 'alen', 'green']
+
+    let another2 = createAnorther(obj)
+    console.log(another2) // { sayName: f }
+    console.log(another2.friends) // ['jack', 'alen', 'green']
+
+    console.log(another1.sayName === another2.sayName)
+
+    // 寄生式组合继承
+    Father.prototype.sayName = function () {
+      console.log(this.name)
+    }
+
+    function Father(name) {
+      this.name = name
+      this.friends = ['jack', 'tony']
+    }
+
+    // 更改原型链
+    Son.prototype = Object.create(Father.prototype, {
+      constructor: {
+        value: Son,
+      },
+    })
+
+    function Son(name, age) {
+      // 核心
+      Father.call(this, name)
+      this.age = age
+    }
+
+    let son1 = new Son('yixyu', 21)
+    son1.friends.push('green')
+    son1.sayName()
+    console.log(son1)
+
+    let son2 = new Son('lt', 21)
+    son2.sayName()
+    console.log(son2)
+  </script>
+</html>
