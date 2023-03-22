@@ -8,29 +8,34 @@ class Tab {
         this.add = this.main.querySelector('.tabadd')
         this.tabscon = this.main.querySelector('.tabscon')
         this.sections = this.main.querySelectorAll('section')
-        this.index = 3   // 给 li 添加自定义属性
         this.init()
     }
 
     // 初始化 让相关元素绑定事件
     init() {
-        // 给每个 li 绑定事件
         this.lis.forEach(element => {
-            // span 绑定修改事件
-            element.querySelector('span').onclick = () => {
-                // 修改样式
-                this.addOrRmoveClass(element)
-                // 显示输入框
-                this.showInput(element)
+            // span 绑定 修改事件
+            element.querySelector('span').onclick = (e) => {
+                let index = [...this.lis].indexOf(e.target.parentNode)
+                this.addOrRmoveClass(index)  // 修改样式
+                this.showInput(element)  // 显示输入框
+            }
+
+            // 删除按钮
+            element.querySelector('.delete').onclick = (e) => {
+                this.deleteNav(e, element)
             }
 
             // li 绑定点击事件
-            element.onclick = () => {
-                // 获取到自定义元素的值
-                let index = element.dataset.index
+            element.onclick = (e) => {
 
-                // 修改样式
-                this.addOrRmoveClass(element, index)
+                if (e.target.nodeName === 'LI') {
+                    let index = [...this.lis].indexOf(e.target)
+
+                    // 获取到自定义元素的值
+                    this.addOrRmoveClass(index)  // 修改样式
+                }
+
             }
         })
 
@@ -49,19 +54,23 @@ class Tab {
     }
 
     // 解除 绑定 css 样式
-    addOrRmoveClass(element, index) {
+    addOrRmoveClass(index) {
+
         // 将前面所有的 li 移除 liactive 类名
         this.lis.forEach(value => {
             value.classList.remove('liactive')
         })
-        element && element.classList.add('liactive')
+
 
         // 将前面所有的 section 移除 conactive 类名
         this.sections.forEach(value => {
             value.classList.remove('conactive')
         })
-        index && this.sections[index].classList.add('conactive')
 
+        if (index !== undefined && index !== -1) {
+            this.sections[index].classList.add('conactive')
+            this.lis[index].classList.add('liactive')
+        }
     }
 
     // 新增 tab 栏
@@ -71,8 +80,8 @@ class Tab {
         this.addOrRmoveClass()
 
         // 插入元素
-        this.insertElement(this.index)
-        this.index++
+        this.insertElement()
+
     }
 
     // 显示输入框
@@ -141,9 +150,9 @@ class Tab {
     }
 
     // 插入元素
-    insertElement(index) {
+    insertElement() {
         // 往 ul 里插入新元素
-        let li = `<li class="liactive" data-index=${index}><span>新选项卡</span><span class="delete">x</span></li>`
+        let li = `<li class="liactive"><span>新选项卡</span><span class="delete">x</span></li>`
         this.ul.insertAdjacentHTML('beforeend', li)
 
         // 创建 section 
@@ -154,6 +163,20 @@ class Tab {
         this.lis = this.main.querySelectorAll('li')
         this.sections = this.main.querySelectorAll('section')
         this.init()
+
+    }
+
+    // 删除
+    deleteNav(e, element) {
+        let index = [...this.lis].indexOf(e.target.parentNode)
+
+        element.remove()
+        this.sections[index].remove()
+        this.addOrRmoveClass(index - 1)
+
+        // 更新 lis 与 sections
+        this.lis = this.main.querySelectorAll('li')
+        this.sections = this.main.querySelectorAll('section')
     }
 }
 
