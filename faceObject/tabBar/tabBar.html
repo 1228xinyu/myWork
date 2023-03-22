@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div class="tabsbox" id="tab">
+      <!-- tab 标签 -->
+      <nav class="fisrstnav">
+        <ul>
+          <li class="liactive" data-index="0">
+            <span>测试1</span><span class="delete">x</span>
+          </li>
+
+          <li data-index="1">
+            <span>测试2</span><span class="delete">x</span>
+          </li>
+
+          <li data-index="2">
+            <span>测试3</span><span class="delete">x</span>
+          </li>
+        </ul>
+        <div class="tabadd">
+          <span>+</span>
+        </div>
+      </nav>
+      <!-- tab 内容 -->
+      <div class="tabscon">
+        <section class="conactive"><span>测试1</span></section>
+        <section><span>测试2</span></section>
+        <section><span>测试3</span></section>
+      </div>
+    </div>
+
+    <script src="./Tab.js"></script>
+  </body>
+</html>
