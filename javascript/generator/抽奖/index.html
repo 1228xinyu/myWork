@@ -1,0 +1,40 @@
+<!DOCTYPE >
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body></body>
+
+  <script>
+    let count = 9
+    function delay(count) {
+      setTimeout(() => {
+        span.innerText = `剩余抽奖次数为${count}`
+      }, 1000)
+    }
+
+    function* test() {
+      while (count) {
+        count--
+        yield delay(count)
+      }
+    }
+
+    const btn = document.createElement('button')
+    btn.innerText = '点击抽奖'
+
+    let t = test(count)
+    btn.onclick = () => {
+      t.next()
+    }
+
+    const span = document.createElement('span')
+    let body = document.querySelector('body')
+    body.appendChild(btn)
+    body.appendChild(span)
+  </script>
+</html>
