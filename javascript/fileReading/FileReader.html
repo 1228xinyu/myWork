@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      img {
+        width: 100%;
+        height: 100%;
+      }
+      .img {
+        width: 200px;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 获取单个文件 -->
+    <input type="file" id="single" />
+
+    <!-- 获取多个文件 -->
+    <input type="file" multiple id="multiple" />
+
+    <!-- img 图片显示 -->
+    <div class="img"></div>
+
+    <script>
+      // 1- 获取元素
+      const single = document.querySelector('#single'),
+        multiple = document.querySelector('#multiple'),
+        showImg = document.querySelector('.img')
+
+      // 2- 给 input 绑定 change 事件
+      single.addEventListener('change', function (e) {
+        // e.target.files  [伪数组, 保存了所有的文件内容]
+        console.log(e.target.files)
+        let file = e.target.files[0] // 单个文件: 只有一项
+
+        // 3- 实例化 FileReader
+        const reader = new FileReader()
+
+        // 4- 调用 readAsDataURL() 方法将文件转成 base64 格式
+        reader.readAsDataURL(file)
+
+        // 5- 监听 load 事件: 当 读取文件操作完成时 触发
+        reader.addEventListener('load', function (e) {
+          // e.currentTarget.result 存储了已经转化为 base64 格式的文件
+          console.log(e.currentTarget.result)
+
+          // 6- 执行下一步操作
+        })
+      })
+
+      // 2- 给 input 绑定 change 事件
+      multiple.addEventListener('change', function (e) {
+        // 3- 获取所有文件
+        const files = e.target.files
+
+        // 4- 遍历循环, 将每个文件都转为 base64 格式
+        for (const f of files) {
+          // 5- 每个文件都需要实例化一个 FileReader
+          const render = new FileReader()
+
+          // 6- 调用 readAsDataURL 方法转化 base64
+          render.readAsDataURL(f)
+
+          // 7- 生成 files 对应的 img
+          const img = new Image()
+
+          // 8- 监听 load 事件
+          render.addEventListener('load', function (e) {
+            // 9- 获取转化为 base64 格式后的文件
+            const base64 = e.currentTarget.result
+
+            // 10- 渲染页面
+            img.src = base64
+            showImg.appendChild(img)
+          })
+        }
+      })
+    </script>
+  </body>
+</html>
