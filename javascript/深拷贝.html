@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        name: 'yixyu',
+        hobby: ['打球', '开车', '钓鱼'],
+        success: {
+          ball: 'very good',
+          it: 'I well be good',
+        },
+      }
+
+      function deepCopy(tar) {
+        let res
+        // 1. 判断 tar 是否为复杂数据类型
+        // 1.1 为复杂数据类型
+        if (typeof tar === 'object' && tar !== null) {
+          // 2. 判断 res 的具体类型，对象或数组
+          res = Array.isArray(tar) ? [] : {}
+
+          // 3. 循环遍历 tar
+          for (const key in tar) {
+            // 4. 判断 tar 属性的类型
+            // 4.1 复杂数据类型
+            if (typeof tar[key] === 'object' && tar[key] !== null) {
+              // 递归调用
+              res[key] = deepCopy(tar[key])
+            }
+            // 4.2 简单数据类型
+            else {
+              res[key] = tar[key]
+            }
+          }
+        }
+        // 1.2 为简单数据类型
+        else {
+          res = tar
+        }
+
+        return res
+      }
+
+      const res = deepCopy(obj)
+
+      obj.hobby.push('做法')
+      obj.success['car'] = 'nice'
+      console.log(res)
+      console.log(obj)
+    </script>
+  </body>
+</html>
