@@ -138,7 +138,7 @@ export default function updateChildren(parentElm, oldChildren, newChildren) {
         parentElm.removeChild(oldStartNode.elm)
       }
 
-      // 指针和虚拟DOM 下移
+      // 指针和虚拟DOM 下移 😠🙉🐼
       oldStartNode = oldChildren[++oldStartIndex]
     }
   }
