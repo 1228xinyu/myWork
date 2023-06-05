@@ -89,7 +89,6 @@ export default function updateChildren(parentElm, oldChildren, newChildren) {
       if (!oldMap) {
         oldMap = {}
         for (let i = 0; i < oldChildren.length; i++) {
-            console.log(oldChildren[i].key);
             oldMap[oldChildren[i].key] = i
         }
       }
