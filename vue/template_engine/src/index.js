@@ -1,15 +1,12 @@
-import Mustache from './mustache/index'
+import Mustache from './secondmustache/index'
 
 const container = document.querySelector('#container')
 
 const templateStr = 
 `<ul>
     {{#arr}}
-    <li>
-        <div>{{name}}的基本信息</div>
-            <div>
-            <p>{{name}}</p>
-            <p>{{age}}</p>
+        <li>
+            <div>{{name}}的基本信息</div>
             <div>
                 <ol>
                 {{#hobbies}}
@@ -17,8 +14,7 @@ const templateStr =
                 {{/hobbies}}
                 </ol>
             </div>
-        </div>
-    </li>
+        </li>
     {{/arr}}
 </ul>`
 
@@ -26,24 +22,24 @@ const templateStr =
 /* 
 
 */
-const templateStr1 = `我是你{{father}},我很{{mood}}, 我是{{ s.b }}`
+const templateStr1 = `我是你{{father}},我很{{mood}}, 我是{{s.b}}`
 
 const data = {
     arr: [
-        { name: 'zs', age:12, hobbies: ['1', '2'] }, // 
-        { name: 'ls', age:13,hobbies: ['2']  }, // 
+        { name: 'zs', age:12, hobbies: ['1', '2', '3', '4'] }, // 
+        { name: 'ls', age:13, hobbies: ['2']  }, // 
         { name: 'ww', age:18, hobbies: ['3', '4'] }, // 
-    ]
+    ],
 }
 
 const data1 = {
   father: '爸爸',
   mood: '开心',
   s: {
-    b:1
+    b:'你大父亲'
   }
 }
 
-const s = Mustache.render(templateStr, data)
-
-container.innerHTML = s
+const s = Mustache.render(templateStr1, data1)
+console.log(s);
+container.innerHTML =  s
